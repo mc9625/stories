@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Inizio stocastico di una storia</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link href="https://fonts.googleapis.com/css?family=Zeyada&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pulltorefreshjs/0.1.19/pulltorefresh.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pulltorefreshjs/0.1.19/pulltorefresh.min.js"></script>
+  
+  
+  <style>
+    body {
+      font-family: 'Zeyada', cursive;
+      font-size: 48px;
+      line-height:1em!important;
+    }
+    h1 {
+      line-height: .6em!important;
+      font-size: 1em!important;
+    }
+  </style>
+</head>
+  <body>
+    <h4>Inizio stocastico di una storia</h4>
+    <p id="story"></p>
+    
+    <script>
+      // Array di inizi di famosi romanzi
+      var beginnings = [
+        "Era il miglior dei tempi, era il peggiore dei tempi,",
+        "Sono nato due volte: la prima a Ginevra, nel 1816, e la seconda a New York, nel 1960.",
+        "Tutte le famiglie felici sono uguali tra loro; ogni famiglia infelice lo è a modo suo.",
+        "Era una mattina chiara e fredda di aprile e i orologi battevano tredici.",
+        "Era un sabato sera, e i ragazzi del coro stavano seduti sul marciapiede davanti alla drogheria di Hiaman",
+        "Non ho mai capito perché mia madre mi abbia chiamato Holden; non è un nome comune in America.",
+        "È stata una notte buia e tempestosa.",
+        "Tutti quanti noi abbiamo un doppio in questo mondo, ma non tutti lo incontrano.",
+        "Non ero mai stato a New York prima di questa estate; almeno non nella parte alta dell'isola, dove il mondo si divide in quartieri a griglia e la Quinta Strada si srotola dall'angolo come un nastro rosso davanti a te.",
+        "Era una mattina fredda e luminosa di aprile e i pendoli battevano tredici.",
+        "Stavo prendendo un caffè latte e un cornetto al bar quando lei entrò.",
+        "Non so come sia iniziata la cosa, ma una notte mi svegliai e scoprii che mi avevo trasformato in un enorme scarafaggio.",
+        "Sono stato chiamato molti nomi, ma questo è il peggiore.",
+        "È morto, finalmente.",
+        "Nessuno può immaginare cosa accadeva dietro quelle tende azzurre e bianche.",
+        "Il mondo è una prigione e la morte è la sua unica uscita.",
+        "Non ho mai capito perché mia madre mi abbia chiamato Holden; non è un nome comune in America.",
+        "Ho sempre saputo che sarei diventato famoso.",
+        "Tutto era in ordine nella casa di Charles, tranne per una cosa: non c'era nessuno.",
+        "La vecchia signora morì senza un'eredità da lasciare, tranne una vecchia casa al mare e il diario di suo padre.",
+        "La storia che sto per raccontare è la storia di un uomo che ha commesso un errore terribile, un errore che ha cambiato il corso della sua vita per sempre.",
+        "L'anno in cui il mondo finì non ci fu una grande esplosione, né un urlo collettivo, né il suono di mille milioni di cuori che si fermavano all'unisono.",
+        "Era una notte buia e tempestosa.",
+        "Non so come ho fatto ad arrivare fin qui.",
+        "Era il miglior dei tempi, era il peggiore dei tempi.",
+        "Quando la storia cominciò, i tempi erano difficili e le strade erano piene di gente in cerca di lavoro.",
+        "Lui era l'uomo più bello che avesse mai visto.",
+        "La storia che vi sto per raccontare è ambientata in un paese molto lontano, molto lontano da qui.",
+        "Ero nato in una famiglia benestante, ma non mi sono mai sentito a mio agio tra la gente del mio stesso rango sociale.",
+        "Ci sono cose che accadono solo una volta nella vita.",
+        "Non avrei mai pensato che una piccola decisione potesse cambiare così tanto la mia vita.",
+        "Era una notte senza luna e un vento gelido soffiava dalle montagne.",
+        "La città era in fiamme quando arrivammo.",
+        "Mi chiamo Ishmael e da quando ho memoria ho sempre amato il mare.",
+        "Ho camminato per giorni nel deserto, alla ricerca di qualcosa che non sapevo neanche di cercare.",
+        "Ho imparato che la gente dimentica quello che hai detto e quello che hai fatto, ma non dimentica mai come li hai fatti sentire.",
+        "Non c'è niente come un giorno di pioggia per farti sentire solo.",
+        "Era un uomo che amava la solitudine e il silenzio.",
+        "L'ultima volta che vidi Parigi, la città era illuminata dal sole e il cielo era azzurro come un sogno.",
+        "Era il momento in cui decisi di ucciderlo.",
+        "Non c'era mai stato un uomo che amasse la vita più di Sebastian Flyte.",
+        "Nel paese degli uomini ciechi, l'uomo con un occhio solo è re.",
+        "Era un uomo strano, con un sorriso strano e un modo di parlare strano.",
+        "Tutto era iniziato con un'idea folle: rapire uno degli uomini più potenti del mondo.",
+        "La notte che il potere andò via, la vita cambiò per sempre.",
+        "Eravamo in guerra, e la mia famiglia era al centro della tempesta.",
+        "Quando la donna dai capelli rossi entrò nel bar, tutti la guardarono.",
+        "Il giorno in cui mio padre morì, il mondo finì per me.",
+        "Era il primo giorno di scuola, e non avevo amici.",
+        "Non c'è niente di più strano di ritrovarsi in un luogo dove non si dovrebbe essere.",
+        "Era un uomo come tanti altri, ma con un segreto che avrebbe cambiato la sua vita per sempre.",
+        "Non avevo mai visto nulla di simile: una città immensa, piena di vita e di sorprese.",
+        "Era una notte di luna piena, e il cielo era così luminoso che sembrava di poter toccare le stelle.",
+        "L'uomo che camminava nel deserto non aveva nulla da perdere.",
+        "Era un uomo solitario, che aveva imparato a convivere con la propria solitudine.",
+        "Era il giorno del mio compleanno, e mi sentivo come se tutto fosse possibile.",
+        "La mia vita era un disastro, e non sapevo come uscirne.",
+        "Era una notte di tempesta, e il mare urlava come un animale ferito.",
+        "L'anno in cui compii trent'anni, la mia vita cambiò per sempre.",
+        "C'è qualcosa di magico nell'aria quando arriva il Natale.",
+        "Era una notte calda e afosa, e la città sembrava un forno.",
+        "Il vento soffiava forte sulla pianura, e il cielo era grigio come la pietra.",
+        "Non avevo mai creduto nei fantasmi, finché non mi trovai faccia a faccia con uno di loro.",
+        "Era una mattina di primavera, e il sole faceva brillare ogni cosa.",
+        "Non avevo mai visto niente di così straordinario: un uomo che volava.",
+        "Era il giorno delle mie nozze, e mi sentivo come se il mondo intero mi appartenesse.",
+        "Era una notte oscura e tempestosa, quando il mio destino cambiò per sempre.",
+        "La mia vita era come un puzzle senza soluzione, finché non incontrai lei.",
+        "Era una notte di luna piena, quando il lupo uscì dalla foresta.",
+        "Il giorno in cui incontrai Jack, la mia vita cambiò per sempre.",
+        "Non sapevo che cosa mi aspettasse quando entrai in quella stanza oscura.",
+        "La prima volta che vidi l'uomo in nero, avevo solo dieci anni.",
+        "Era una notte di pioggia battente, quando incontrai la donna della mia vita.",
+        "C'era un silenzio assordante quando entrai nella stanza dell'ospedale.",
+        "La mia vita era un'opera d'arte incompleta, finché non incontrai lei.",
+        "Era il giorno della mia laurea, e mi sentivo come se il mondo intero fosse davanti a me.",
+        "La città era un caos totale, e io ero nel mezzo della tempesta.",
+        "Era una notte di neve, e il mondo sembrava coperto da una coltre di bianco.",
+        "Non avevo mai visto una creatura così strana come il drago che apparve davanti a me.",
+        "Era una giornata di sole, e la primavera stava iniziando a sbocciare.",
+        "Non avevo mai sentito parlare di una città chiamata Ember, finché non mi ci trovai dentro.",
+        "La mia vita era come una barca in mezzo al mare, finché non incontrai lui.",
+        "Era una notte di festa, e il rumore e l'ebbrezza riempivano l'aria.",
+        "L'amore è una cosa strana: può farti sentire vivo e allo stesso tempo ucciderti lentamente.",
+        "Non avevo mai visto tanta neve nella mia vita, finché non arrivai in quel paese gelido.",
+        "L'uomo che vedeva attraverso le cose non era un mago o un alchimista, ma un semplice umano come me.",
+        "Era una notte di luna nuova, quando il lupo mannaro si risvegliò.",
+        "Il viaggio iniziò con una telefonata che mi annunciò la morte di mio padre.",
+        "C'è qualcosa di sinistro nell'aria quando arriva la tempesta.",
+        "Era una notte di primavera, e il profumo dei fiori riempiva l'aria.",
+        "La mia vita era come un fiume in piena, finché non incontrai lei.",
+        "Non avevo mai visto niente di così bello come il mare al tramonto.",
+        "Era una notte di luna crescente, quando mi persi nella foresta.",
+        "Non sapevo che cosa mi aspettasse quando entrai in quella casa abbandonata.",
+        "Era una giornata di sole, e il cielo era così azzurro da sembrare dipinto.",
+        "Non avevo mai incontrato una persona così strana come il mio nuovo vicino di casa.",
+        "Era il momento più buio della notte, quando il mostro apparve.",
+        "Non avrei mai pensato di finire in una situazione del genere, ma la vita è piena di sorprese.",
+        "La mia vita era un'ombra vuota, finché non incontrai lei.",
+        "Non avevo mai creduto ai fantasmi, finché non mi trovai faccia a faccia con uno di loro.",
+        "Era una notte di luna piena, quando tutto cambiò.",
+        "La mia vita era come un puzzle senza soluzione, finché non incontrai lui.",
+        "Non avrei mai pensato che un libro potesse cambiare la mia vita, finché non lessi quello.",
+        "Era una notte di tempesta, quando il fulmine colpì l'albero vicino a me.",
+        "Non avevo mai creduto nella magia, finché non incontrai il mago.",
+        "Era una notte di inverno, quando il fuoco nella mia stufa si spense.",
+        "Non sapevo che cosa mi aspettasse quando entrai in quella casa infestata.",
+        "La mia vita era come un viaggio senza meta, finché non incontrai lei.",
+        "Era una notte di luna calante, quando il vampiro mi morse.",
+        "Non avevo mai visto una persona così misteriosa come il mio nuovo capo.",
+        "Era una notte di nebbia, e il mondo sembrava sospeso tra la realtà e l'illusione.",
+        "Non sapevo che cosa mi aspettasse quando aprii quella porta.",
+        "Era una notte di Halloween, e le strade erano piene di bambini travestiti.",
+        "La mia vita era come una scatola vuota, finché non incontrai lui.",
+        "Era una notte di pioggia, e il rumore delle gocce sul tetto mi faceva venire l'ansia.",
+        "Non avevo mai visto un posto così strano come il circo che apparve dal nulla.",
+        "Era una notte di primavera, quando il canto degli uccelli mi svegliò.",
+        "La mia vita era come un quadro senza colore, finché non incontrai lei.",
+        "Non avevo mai sentito un suono così spettrale come il lamento del fantasma.",
+        "Era una notte di luna nuova, e il mondo sembrava privo di luce.",
+        "Non avrei mai pensato di diventare un detective privato, finché non incontrai il mio primo caso.",
+        "Era una notte di tempesta, e il vento urlava come un lupo solitario.",
+        "La mia vita era come una barca in mezzo al mare, finché non incontrai lei.",
+        "Non avevo mai visto un paese così arido come quello che si stendeva davanti a me.",
+        "Era una notte di luna crescente, quando mi persi nella foresta.",
+        "La mia vita era come un romanzo triste, finché non incontrai lui.",
+        "Non avrei mai pensato di diventare un cowboy, finché non incontrai il mio primo cavallo.",
+        "Il primo pensiero che attraversò la mente di Alice quando aprì gli occhi fu che qualcosa non andava.",
+        "Il villaggio di Porterville sembrava immerso in un'atmosfera di pace, ma sotto la superficie si nascondevano oscuri segreti.",
+        "Sarah sapeva che quella sarebbe stata una giornata diversa dalle altre, quando notò una figura strana all'angolo della strada.",
+        "Quando Joseph si svegliò quella mattina, sapeva che avrebbe dovuto fare una scelta difficile.",
+        "La signora Morris sapeva di aver visto qualcosa di strano quella notte, ma non riusciva a capire cosa.",
+        "Diana guardava fuori dalla finestra, osservando le foglie degli alberi che si agitavano al vento.",
+        "Il cielo era grigio e minaccioso quando John si avventurò nel bosco.",
+        "La grande porta di legno del castello si aprì lentamente, facendo scricchiolare le cerniere arrugginite.",
+        "Nessuno aveva mai osato avvicinarsi al vecchio mulino abbandonato ai margini della città.",
+        "L'odore di vernice fresca era ovunque, mentre il sole del mattino illuminava le pareti bianche della nuova casa.",
+        "Sophie si svegliò con un sussulto, sapendo che quella sarebbe stata una giornata importante per lei.",
+        "Il profumo del mare riempiva le narici di Marco mentre camminava sulla spiaggia deserta.",
+        "La notte era oscura e silenziosa, eccetto per il ticchettio dell'orologio da parete.",
+        "Julia guardava il cielo stellato, chiedendosi quale fosse il suo posto nel mondo.",
+        "Quando aprì la porta della soffitta, Claire si trovò di fronte a una scena che la fece sobbalzare.",
+        "L'odore di fumo era ovunque, mentre le fiamme divampavano dalla finestra del palazzo.",
+        "Mia era seduta sola al bar, sorseggiando un cocktail mentre osservava la gente che entrava ed usciva.",
+        "Il vento ululava fuori dalla finestra mentre Max si avvicinava alla vecchia casa abbandonata.",
+        "Nessuno sapeva come fosse cominciata la guerra, ma tutti sapevano che sarebbe stata lunga e brutale.",
+        "Il sole batteva forte sulla schiena di Maria mentre camminava lungo la strada sterrata.",
+        "La comunicazione è uno degli aspetti più importanti della vita umana, in grado di influenzare ogni aspetto della nostra esistenza.",
+        "Ogni volta che ci mettiamo in comunicazione con qualcuno, stiamo trasmettendo non solo informazioni, ma anche emozioni e valori.",
+        "La comunicazione verbale è solo una delle tante forme di comunicazione che utilizziamo ogni giorno, insieme a quella non verbale e a quella scritta.",
+        "La buona comunicazione è essenziale in ogni relazione umana, sia essa personale o professionale.",
+        "La comunicazione interpersonale è il fondamento di ogni relazione umana, ma può essere difficile da gestire in alcuni casi.",
+        "L'ascolto attivo è una delle abilità più importanti nella comunicazione, ma spesso viene sottovalutato.",
+        "La comunicazione efficace richiede non solo di esprimere chiaramente i propri pensieri, ma anche di ascoltare attentamente gli altri.",
+        "La comunicazione di gruppo può essere molto complessa, ma esistono tecniche e strategie che possono aiutare a gestirla in modo efficace.",
+        "Le nuove tecnologie hanno rivoluzionato la comunicazione, creando nuove sfide e opportunità per tutti noi.",
+        "La comunicazione interculturale è sempre più importante in un mondo globalizzato, ma richiede una buona conoscenza delle diverse culture e delle loro dinamiche.",
+        "La comunicazione in ambito lavorativo richiede una particolare attenzione alle diverse funzioni linguistiche e ai ruoli sociali coinvolti.",
+        "La comunicazione politica ha un ruolo fondamentale nel processo democratico, ma può essere influenzata da numerosi fattori esterni.",
+        "La comunicazione pubblica è un'arte complessa, che richiede una buona conoscenza dei mezzi di comunicazione e delle loro caratteristiche.",
+        "La comunicazione visiva gioca un ruolo sempre più importante nella nostra società, grazie alla diffusione dei nuovi media.",
+        "La comunicazione persuasiva è un'abilità fondamentale in diversi ambiti della vita, ma richiede una buona conoscenza delle tecniche persuasive.",
+        "La comunicazione empatica è un aspetto essenziale della comunicazione interpersonale, in grado di creare legami profondi tra le persone.",
+        "La comunicazione efficace in un team di lavoro richiede una buona gestione dei conflitti e una condivisione dei valori comuni.",
+        "La comunicazione nei contesti di crisi può essere difficile da gestire, ma esistono tecniche e strategie per far fronte a queste situazioni.",
+        "La comunicazione non verbale è un aspetto fondamentale della comunicazione umana, in grado di trasmettere emozioni e sentimenti in modo immediato.",
+        "La comunicazione interpersonale in ambito sanitario richiede una particolare attenzione alle dinamiche comunicative tra medico e paziente.",
+        "Nel panorama dei social media, la qualità dei contenuti è sempre più importante per raggiungere il proprio pubblico.",
+        "La comunicazione aziendale sui social media richiede un approccio strategico e una pianificazione attenta.",
+        "I social media sono un mezzo molto potente per le aziende, ma vanno utilizzati in modo oculato per evitare di incorrere in possibili rischi reputazionali.",
+        "L'utilizzo di influencer sui social media è sempre più diffuso, ma è importante sceglierli con cura e verificarne l'efficacia.",
+        "Il monitoraggio dei social media è fondamentale per comprendere l'andamento della propria reputazione online e agire tempestivamente in caso di eventuali criticità.",
+        "La comunicazione sui social media richiede un approccio trasparente e autentico per instaurare una relazione di fiducia con il proprio pubblico.",
+        "La gestione dei social media richiede competenze specifiche e una costante attenzione alle nuove tendenze e alle best practice.",
+        "Le chatbot stanno diventando sempre più diffuse come strumento di comunicazione aziendale sui social media.",
+        "I social media sono un ottimo strumento per creare una community attorno al proprio brand e favorire l'engagement del pubblico.",
+        "La presenza sui social media è ormai indispensabile per le aziende che vogliono essere competitive nel mercato odierno.",
+        "La scelta dei canali di social media più adatti alla propria attività è un passaggio cruciale per ottenere risultati efficaci nella comunicazione online.",
+        "La pubblicità sui social media può essere un'ottima scelta per raggiungere il proprio pubblico e promuovere il proprio brand in modo mirato.",
+        "La comunicazione sui social media richiede una pianificazione strategica a medio-lungo termine, al fine di ottenere risultati duraturi.",
+        "I social media possono essere utilizzati per la gestione della customer care e per fornire supporto ai propri clienti.",
+        "Il video è uno dei formati di contenuto più efficaci sui social media, ma richiede una particolare attenzione alla produzione e al montaggio.",
+        "La gestione dei social media richiede una costante attenzione alle metriche di monitoraggio per valutare l'efficacia delle proprie azioni.",
+        "La scelta del tone of voice più adatto alla propria azienda è un passaggio importante nella comunicazione sui social media.",
+        "La crisi reputazionale sui social media può avere un impatto devastante sul proprio brand, per questo è importante avere un piano di crisis management ben strutturato.",
+        "I social media sono uno strumento prezioso per la raccolta di feedback e l'analisi dei bisogni del proprio pubblico.",
+        "La creazione di contenuti ad hoc per i social media richiede un approccio creativo e innovativo per catturare l'attenzione del proprio pubblico.",
+        "L'odore di salsedine impregnava l'aria, mentre i gabbiani gracchiavano rumorosamente sul molo.",  
+        "La luce calda del sole filtrava attraverso le foglie degli alberi, creando un mosaico di ombre sul prato.",  
+        "La città era avvolta da una nebbia fitta, che rendeva difficile distinguere le figure umane dalle forme delle automobili.",  
+        "La porta del vecchio casolare cigolò sinistramente, come se volesse allontanare chiunque osasse avvicinarsi.",  
+        "Il vento gelido soffiava con forza, alzando polvere e foglie secche.",  
+        "La notte era scura e silenziosa, interrotta solo dal fruscio delle foglie e dal canto dei grilli.",  
+        "Il palazzo del governo si stagliava imponente contro il cielo azzurro, come un monolite di marmo bianco.",  
+        "La stazione ferroviaria era un luogo frenetico, dove il ticchettio degli orologi e il rumore dei treni si fondevano in un'unica sinfonia.",  
+        "La strada era deserta e silenziosa, eppure avevo la sensazione che qualcuno mi stesse seguendo.",  
+        "Il profumo di libri antichi riempiva l'aria, mentre mi addentravo nella biblioteca.",  
+        "La foresta si estendeva all'infinito, un labirinto di alberi e arbusti che sembrava non avere fine.",  
+        "Il deserto si estendeva all'orizzonte, una distesa di sabbia dorata che sembrava bruciare sotto il sole cocente.",  
+        "Il lago era calmo come uno specchio, riflettendo il cielo azzurro e le nuvole bianche.",  
+        "La casa sulle colline era una grande villa in stile coloniale, circondata da un giardino lussureggiante.",  
+        "La città vecchia era un labirinto di vicoli stretti e case antiche, dove il tempo sembrava essersi fermato.",
+        "Il teatro era gremito di spettatori, che applaudivano con entusiasmo alla fine della rappresentazione.",  
+        "La nave solcava le onde del mare in tempesta, affrontando i venti contrari con coraggio e determinazione.",  
+        "La montagna si innalzava maestosa, una parete di roccia e neve che sembrava toccare il cielo.",  
+        "Il parco era un'oasi di pace e tranquillità, dove gli uccelli cinguettavano e le fontane zampillavano.",  
+        "Il bar era affollato di persone, che chiacchieravano e ridevano a squarciagola, ignorando il resto del mondo.",
+      ];
+      
+      // Componi l'inizio di storia casuale
+      // Componi l'inizio di storia casuale
+      var randomBeginning1Index = Math.floor(Math.random() * beginnings.length);
+      var randomBeginning2Index = Math.floor(Math.random() * beginnings.length);
+      var randomBeginning3Index = Math.floor(Math.random() * beginnings.length);
+      
+      var randomBeginning1 = beginnings[randomBeginning1Index];
+      var randomBeginning2 = beginnings[randomBeginning2Index];
+      var randomBeginning3 = beginnings[randomBeginning3Index];
+      
+      //var randomStory = randomBeginning1 + " " + randomBeginning2 + " " + randomBeginning3;
+      var randomStory = randomBeginning1
+      
+      // Aggiungi l'inizio di storia alla pagina
+      document.getElementById("story").innerHTML = randomStory;
+    </script>
+  </body>
+</html>
